@@ -58,11 +58,11 @@ describe('Array', function () {
     });
   });
   
-  describe('Most efficient as O(n^2)', function () {
-    it(`should use less iterations as O(n^2) where n=${mockup.length}`, function () {
+  describe('Most efficient than O(n^2)', function () {
+    it(`should use less iterations than O(n^2) where n=${mockup.length}`, function () {
       for (let i = 139; i < 172; i++) {
         assert.equal((findHeightSumDebug.findSumHeight(i).iterations < (Math.pow(mockup.length, 2))), true);
-        console.log(`\tTesting ${i}: This is ${(Math.pow(mockup.length, 2) / findHeightSumDebug.findSumHeight(i).iterations)} times more efficient than O(n^2)`);
+        console.log(`\tTesting ${i}: This is ${(Math.pow(mockup.length, 2) / findHeightSumDebug.findSumHeight(i).iterations)} times more efficient than O(n^2) with ${findHeightSumDebug.findSumHeight(i).values.length} pairs found`);
       }
     });
   });
