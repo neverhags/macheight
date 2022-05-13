@@ -3,6 +3,16 @@ const mockup = JSON.parse(fs.readFileSync('./mockup.json')).values;
 import * as assert from 'assert';
 import * as fs from 'fs'
 
+const bigInput = [];
+for(let i=0; i < 100000;i++) {
+  bigInput.push({
+    h_in: i,
+    h_meters: i * 2.5,
+    first_name: `name ${i}`,
+    last_name: `last name ${i}`,
+  });
+}
+
 describe('Array', function () {
   const findHeightSum = new FindHeightSum(mockup, false, false);
   const findHeightSumDebug = new FindHeightSum(mockup, true, false);
@@ -50,21 +60,10 @@ describe('Array', function () {
   
   describe('Most efficient as O(n^2)', function () {
     it(`should use less iterations as O(n^2) where n=${mockup.length}`, function () {
-      let testIndex = 160;
-      assert.equal((findHeightSumDebug.findSumHeight(testIndex).iterations < (Math.pow(mockup.length, 2))), true);
-      console.log(`Testing ${testIndex}: This is ${(Math.pow(mockup.length, 2) / findHeightSumDebug.findSumHeight(testIndex).iterations)} times more efficient than O(n^2)`);
-
-      testIndex = 139;
-      assert.equal((findHeightSumDebug.findSumHeight(testIndex).iterations < (Math.pow(mockup.length, 2))), true);
-      console.log(`Testing ${testIndex}: This is ${(Math.pow(mockup.length, 2) / findHeightSumDebug.findSumHeight(testIndex).iterations)} times more efficient than O(n^2)`);
-
-      testIndex = 157;
-      assert.equal((findHeightSumDebug.findSumHeight(testIndex).iterations < (Math.pow(mockup.length, 2))), true);
-      console.log(`Testing ${testIndex}: This is ${(Math.pow(mockup.length, 2) / findHeightSumDebug.findSumHeight(testIndex).iterations)} times more efficient than O(n^2)`);
-
-      testIndex = 168;
-      assert.equal((findHeightSumDebug.findSumHeight(testIndex).iterations < (Math.pow(mockup.length, 2))), true);
-      console.log(`Testing ${testIndex}: This is ${(Math.pow(mockup.length, 2) / findHeightSumDebug.findSumHeight(testIndex).iterations)} times more efficient than O(n^2)`);
+      for (let i = 139; i < 172; i++) {
+        assert.equal((findHeightSumDebug.findSumHeight(i).iterations < (Math.pow(mockup.length, 2))), true);
+        console.log(`\tTesting ${i}: This is ${(Math.pow(mockup.length, 2) / findHeightSumDebug.findSumHeight(i).iterations)} times more efficient than O(n^2)`);
+      }
     });
   });
   
@@ -79,4 +78,15 @@ describe('Array', function () {
       assert.equal(hasError, false);
     });
   });
+  
+  describe('Hard Test: Big input list', function () {
+    it(`should process all in a 100000 rows list`, function () {
+      const findHeightBig = new FindHeightSum(bigInput, false, false);
+      let hasError = false;
+      findHeightBig.findSumHeight(10000)
+
+      assert.equal(hasError, false);
+    });
+  });
+
 });
