@@ -6,7 +6,7 @@ import * as fs from 'fs'
 
 const mockup = JSON.parse(fs.readFileSync('./mockup.json')).values;
 const url = 'https://mach-eight.uc.r.appspot.com/';
-const useMockup = true;
+const useMockup = false;
 
 let vin;
 if (isNaN(process.argv[2])) {
