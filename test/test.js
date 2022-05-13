@@ -60,7 +60,7 @@ describe('Array', function () {
   
   describe('Most efficient than O(n^2)', function () {
     it(`should use less iterations than O(n^2) where n=${mockup.length}`, function () {
-      for (let i = 139; i < 172; i++) {
+      for (let i = 139; i < 177; i++) {
         assert.equal((findHeightSumDebug.findSumHeight(i).iterations < (Math.pow(mockup.length, 2))), true);
         console.log(`\tTesting ${i}: This is ${(Math.pow(mockup.length, 2) / findHeightSumDebug.findSumHeight(i).iterations)} times more efficient than O(n^2) with ${findHeightSumDebug.findSumHeight(i).values.length} pairs found`);
       }
@@ -70,7 +70,7 @@ describe('Array', function () {
   describe('Verify all return values', function () {
     it(`should compare and verify the results: a + b = input`, function () {
       let hasError = false;
-      for (let i = 139; i < 172; i++) {
+      for (let i = 139; i < 177; i++) {
         findHeightSumDebug.findSumHeight(i).values.forEach((value) => {
           hasError = hasError || value.a.h_in + value.b.h_in === i;
         })
