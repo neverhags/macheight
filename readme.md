@@ -34,5 +34,11 @@ It must show the result like this:
 ## Testing 
 The test are provided by Mocha, to run the test you must use:
 ```
-npm run test
+npm test
+```
+
+## Linting 
+The test are provided by eslint, to run the linter you must use:
+```
+npm run lint
 ```
