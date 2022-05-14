@@ -2,10 +2,10 @@
   "name": "macheight",
   "version": "1.0.0",
   "description": "",
-  "main": "test.js",
+  "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "node test.js",
+    "start": "node index.js",
     "test": "npx mocha"
   },
   "author": "",

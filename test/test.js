@@ -52,9 +52,24 @@ describe('Array', function () {
     });
   });
 
+  describe('Support round decimals', function () {
+    it('should return the example response', function () {
+      assert.deepEqual(findHeightSum.findSumHeight("139.3"), [
+        ' - Brevin Knight 70    69 Nate Robinson',
+        ' - Mike Wilks 70    69 Nate Robinson'
+      ]);
+    });
+  });
+
   describe('Support characters input', function () {
     it('should return nothing', function () {
       assert.deepEqual(findHeightSumDebug.findSumHeight("a").values, []);
+    });
+  });
+
+  describe('Support no input', function () {
+    it('should return nothing', function () {
+      assert.deepEqual(findHeightSumDebug.findSumHeight().values, []);
     });
   });
   
@@ -79,8 +94,8 @@ describe('Array', function () {
     });
   });
   
-  describe('Hard Test: Big input list', function () {
-    it(`should process all in a 100000 rows list`, function () {
+  describe('Hard Test: Big list input', function () {
+    it(`should process a 100000 rows list with 10000 as input`, function () {
       const findHeightBig = new FindHeightSum(bigInput, false, false);
       let hasError = false;
       findHeightBig.findSumHeight(10000)
