@@ -118,7 +118,7 @@ class FindHeightSum {
     let result = [];
 
     // eslint-disable-next-line prefer-const, no-unused-vars
-    for (let _ of this.obj) {
+    while (this.vb) {
       this.processCounter++;
       this.resultA = this.getResult(this.va);
       this.resultB = this.getResult(this.vb);
