@@ -6,7 +6,7 @@ This proyect has made with nodeJS. You can install this project using:
 npm install
 ```
 
-*note: using node 14.18.1* <br/><br/>
+*note: using node 18.3.0* <br/><br/>
 
 
 ## Getting Starting
