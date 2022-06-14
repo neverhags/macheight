@@ -3,6 +3,8 @@
  * Author: Heilner Garcia <heilnergarcia@gmail.com>
  */
 class FindHeightSum {
+  #pointerA;
+  #pointerB;
   /**
    * FindHeightSum constructor
    * @param {PlayerObject} data
@@ -27,8 +29,8 @@ class FindHeightSum {
       throw new Error('Please enter a integer as input');
     }
 
-    this.pointerA = 0;
-    this.pointerB = Math.abs(vin);
+    this.#pointerA = 0;
+    this.#pointerB = Math.abs(vin);
     // Testing/Benchmark: Count process iterations
     this.processCounter = 0;
   }
@@ -51,12 +53,9 @@ class FindHeightSum {
   /**
    * Sums and subtract 1 to input values to get the same sum result
    * Ej: A + B = R => 2 + 2 = 4 => 3 + 1 = 4
-   * @param {number} valueA
-   * @param {number} valueB
-   * @return {Array<number>}
    */
-  #nextStep(valueA, valueB) {
-    return [valueA + 1, valueB - 1];
+  #nextStep() {
+    [this.#pointerA, this.#pointerB] = [this.#pointerA + 1, this.#pointerB - 1];
   }
 
   /**
@@ -65,7 +64,7 @@ class FindHeightSum {
   * @param {*} obj
   * @return {Array}
   */
-  getResult({indexValue, obj}) {
+  #getResult({indexValue, obj}) {
     if (obj[indexValue] && obj[indexValue].length >= 1) {
       return obj[indexValue];
     }
@@ -80,7 +79,7 @@ class FindHeightSum {
    * @param {number} arrB
    * @returns
    */
-  buildResult(arrA, arrB) {
+  #buildResult(arrA, arrB) {
     const result = [];
     // Each iteration gets a valid answer
     arrA.forEach((elementA) => {
@@ -109,18 +108,18 @@ class FindHeightSum {
     let resultB;
 
     // eslint-disable-next-line prefer-const, no-unused-vars
-    while (this.pointerA <= this.pointerB) {
+    while (this.#pointerA <= this.#pointerB) {
       this.processCounter++;
-      resultA = this.getResult({indexValue: this.pointerA, obj: this.data});
-      resultB = this.getResult({indexValue: this.pointerB, obj: this.data});
+      resultA = this.#getResult({indexValue: this.#pointerA, obj: this.data});
+      resultB = this.#getResult({indexValue: this.#pointerB, obj: this.data});
 
 
       if (resultA && resultB) {
-        result = result.concat(this.buildResult(resultA, resultB));
+        result = result.concat(this.#buildResult(resultA, resultB));
       }
 
       resultA = resultB = undefined;
-      [this.pointerA, this.pointerB] = this.#nextStep(this.pointerA, this.pointerB);
+      this.#nextStep();
     }
 
     console.log(result.length ? result : 'No results found');
