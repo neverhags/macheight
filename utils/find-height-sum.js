@@ -27,8 +27,8 @@ class FindHeightSum {
       throw new Error('Please enter a integer as input');
     }
 
-    this.va = 0;
-    this.vb = Math.abs(vin);
+    this.pointerA = 0;
+    this.pointerB = Math.abs(vin);
     // Testing/Benchmark: Count process iterations
     this.processCounter = 0;
   }
@@ -105,26 +105,28 @@ class FindHeightSum {
   findSumHeight(vin) {
     this.#setupSearch(vin);
     let result = [];
+    let resultA;
+    let resultB;
 
     // eslint-disable-next-line prefer-const, no-unused-vars
-    while (this.va <= this.vb) {
+    while (this.pointerA <= this.pointerB) {
       this.processCounter++;
-      this.resultA = this.getResult({indexValue: this.va, obj: this.data});
-      this.resultB = this.getResult({indexValue: this.vb, obj: this.data});
+      resultA = this.getResult({indexValue: this.pointerA, obj: this.data});
+      resultB = this.getResult({indexValue: this.pointerB, obj: this.data});
 
 
-      if (this.resultA && this.resultB) {
-        result = result.concat(this.buildResult(this.resultA, this.resultB));
+      if (resultA && resultB) {
+        result = result.concat(this.buildResult(resultA, resultB));
       }
 
-      this.resultA = this.resultB = undefined;
-      [this.va, this.vb] = this.#nextStep(this.va, this.vb);
+      resultA = resultB = undefined;
+      [this.pointerA, this.pointerB] = this.#nextStep(this.pointerA, this.pointerB);
     }
 
     console.log(result.length ? result : 'No results found');
 
-    this.resultA = undefined;
-    this.resultB = undefined;
+    resultA = undefined;
+    resultB = undefined;
 
     return this.getAsObject ?
       {values: result, iterations: this.processCounter} :
