@@ -1,5 +1,6 @@
 import FindHeightSum from '../utils/find-height-sum.js';
-const mockup = JSON.parse(fs.readFileSync('./mockup.json')).values;
+
+const mockup = JSON.parse(fs.readFileSync('./utils/mockup.json')).values;
 import * as assert from 'assert';
 import * as fs from 'fs';
 
@@ -19,52 +20,57 @@ describe('Array', function() {
   describe('Find into numbers', function() {
     it('should return the example response', function() {
       assert.deepEqual(findHeightSum.findSumHeight(139), [
-        ' - Brevin Knight 70    69 Nate Robinson',
-        ' - Mike Wilks 70    69 Nate Robinson']);
+        ' - Nate Robinson 69    70 Brevin Knight',
+        ' - Nate Robinson 69    70 Mike Wilks',
+      ]);
     });
   });
 
   describe('Support negative inputs', function() {
     it('should return the example response', function() {
       assert.deepEqual(findHeightSum.findSumHeight(-139), [
-        ' - Brevin Knight 70    69 Nate Robinson',
-        ' - Mike Wilks 70    69 Nate Robinson']);
+        ' - Nate Robinson 69    70 Brevin Knight',
+        ' - Nate Robinson 69    70 Mike Wilks',
+      ]);
     });
   });
 
   describe('Support string inputs', function() {
     it('should return the example response', function() {
       assert.deepEqual(findHeightSum.findSumHeight('139'), [
-        ' - Brevin Knight 70    69 Nate Robinson',
-        ' - Mike Wilks 70    69 Nate Robinson']);
+        ' - Nate Robinson 69    70 Brevin Knight',
+        ' - Nate Robinson 69    70 Mike Wilks',
+      ]);
     });
   });
 
   describe('Support negative string inputs', function() {
     it('should return the example response', function() {
       assert.deepEqual(findHeightSum.findSumHeight('-139'), [
-        ' - Brevin Knight 70    69 Nate Robinson',
-        ' - Mike Wilks 70    69 Nate Robinson']);
+        ' - Nate Robinson 69    70 Brevin Knight',
+        ' - Nate Robinson 69    70 Mike Wilks',
+      ]);
     });
   });
 
   describe('Support round decimals', function() {
     it('should return the example response', function() {
       assert.deepEqual(findHeightSum.findSumHeight('139.3'), [
-        ' - Brevin Knight 70    69 Nate Robinson',
-        ' - Mike Wilks 70    69 Nate Robinson']);
+        ' - Nate Robinson 69    70 Brevin Knight',
+        ' - Nate Robinson 69    70 Mike Wilks',
+      ]);
     });
   });
 
   describe('Support characters input', function() {
     it('should return nothing', function() {
-      assert.deepEqual(findHeightSumDebug.findSumHeight('a').values, []);
+      assert.deepEqual(findHeightSumDebug.findSumHeight('a'), undefined);
     });
   });
 
   describe('Support no input', function() {
     it('should return nothing', function() {
-      assert.deepEqual(findHeightSumDebug.findSumHeight().values, []);
+      assert.deepEqual(findHeightSumDebug.findSumHeight(), undefined);
     });
   });
 

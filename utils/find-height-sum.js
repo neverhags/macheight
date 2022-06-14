@@ -9,11 +9,11 @@ class FindHeightSum {
    * FindHeightSum constructor
    * @param {PlayerObject} data
    * @param {boolean} getAsObject
-   * @param {boolean} debug
+   * @param {boolean} verbose
    */
-  constructor(data, getAsObject = false, debug = true) {
+  constructor(data, getAsObject = false, verbose = true) {
     // this.HALF = 0.5;
-    this.DEBUG = debug;
+    this.VERBOSE = verbose;
     this.getAsObject = getAsObject;
     this.data = [];
     this.#parseObject(data);
@@ -22,17 +22,20 @@ class FindHeightSum {
   /**
    * Set FindHeightSum variables
    * @param {number} vin Integer input value: sum to find
+   * @return {boolean}
    */
   #setupSearch(vin) {
     vin = parseInt(vin, 0);
     if (Number.isNaN(vin)) {
-      throw new Error('Please enter a integer as input');
+      console.log('Please enter a integer as input');
+      return false;
     }
 
     this.#pointerA = 0;
     this.#pointerB = Math.abs(vin);
     // Testing/Benchmark: Count process iterations
     this.processCounter = 0;
+    return true;
   }
 
   /**
@@ -102,7 +105,9 @@ class FindHeightSum {
    * @return { PlayerSelected[] }
    */
   findSumHeight(vin) {
-    this.#setupSearch(vin);
+    if (!this.#setupSearch(vin)) {
+      return;
+    }
     let result = [];
     let resultA;
     let resultB;
@@ -122,7 +127,9 @@ class FindHeightSum {
       this.#nextStep();
     }
 
-    console.log(result.length ? result : 'No results found');
+    if (this.VERBOSE) {
+      console.log(result.length ? result : 'No results found');
+    }
 
     resultA = undefined;
     resultB = undefined;
