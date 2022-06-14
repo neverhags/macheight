@@ -10,44 +10,41 @@ class FindHeightSum {
    * @param {boolean} debug
    */
   constructor(data, getAsObject = false, debug = true) {
-    this.HALF = 0.5;
+    // this.HALF = 0.5;
     this.DEBUG = debug;
     this.getAsObject = getAsObject;
-    this.obj = [];
-    this.parseObject(data);
+    this.data = [];
+    this.#parseObject(data);
   }
 
   /**
    * Set FindHeightSum variables
    * @param {number} vin Integer input value: sum to find
    */
-  setupSearch(vin) {
+  #setupSearch(vin) {
     vin = parseInt(vin, 0);
     if (Number.isNaN(vin)) {
-      console.error('Please enter a integer as input');
+      throw new Error('Please enter a integer as input');
     }
 
-    this.va = Math.abs(vin) / 2;
-    this.vb = this.va;
+    this.va = 0;
+    this.vb = Math.abs(vin);
+    // Testing/Benchmark: Count process iterations
     this.processCounter = 0;
-
-    if (this.va % 1 !== 0) {
-      [this.va, this.vb] = this.fixNonInt(this.va, this.vb);
-    }
   }
 
   /**
    * Create a new ordered object based on h_in input
    * @param {PlayerObject} data
    */
-  parseObject(data) {
+  #parseObject(data) {
     for (let i = 0; i < data.length; i++) {
       this.processCounter++;
-      const prevValue = this.obj[data[i].h_in];
+      const prevValue = this.data[data[i].h_in];
       if (!prevValue) {
-        this.obj[data[i].h_in] = [];
+        this.data[data[i].h_in] = [];
       }
-      this.obj[data[i].h_in].push(data[i]);
+      this.data[data[i].h_in].push(data[i]);
     }
   }
 
@@ -58,31 +55,21 @@ class FindHeightSum {
    * @param {number} valueB
    * @return {Array<number>}
    */
-  nextStep(valueA, valueB) {
+  #nextStep(valueA, valueB) {
     return [valueA + 1, valueB - 1];
   }
 
   /**
-   * When the input is unpeer this helps to set a valid int sum
-   * @param {number} va
-   * @param {number} vb
-   * @return {Array<number>}
-   */
-  fixNonInt(va, vb) {
-    return [va + this.HALF, vb - this.HALF];
-  }
-
-  /**
-   * Returns the search result from the main obj
-   * @param {number} indexValue
-   * @return {Array}
-   */
-  getResult(indexValue) {
-    let result;
-    if (this.obj[indexValue] && this.obj[indexValue].length >= 1) {
-      result = this.obj[indexValue];
+  * Get obj[indexValue] verified result
+  * @param {number} indexValue
+  * @param {*} obj
+  * @return {Array}
+  */
+  getResult({indexValue, obj}) {
+    if (obj[indexValue] && obj[indexValue].length >= 1) {
+      return obj[indexValue];
     }
-    return result;
+    return false;
   }
 
   // eslint-disable-next-line valid-jsdoc
@@ -95,9 +82,11 @@ class FindHeightSum {
    */
   buildResult(arrA, arrB) {
     const result = [];
+    // Each iteration gets a valid answer
     arrA.forEach((elementA) => {
       arrB.forEach((elementB) => {
         this.processCounter++;
+        // Returns A/B object or an string readable in console
         const data = this.getAsObject ?
           {a: elementA, b: elementB} :
           ` - ${elementA.first_name} ${elementA.last_name} ${elementA.h_in}` +
@@ -114,32 +103,32 @@ class FindHeightSum {
    * @return { PlayerSelected[] }
    */
   findSumHeight(vin) {
-    this.setupSearch(vin);
+    this.#setupSearch(vin);
     let result = [];
 
     // eslint-disable-next-line prefer-const, no-unused-vars
-    while (this.vb) {
+    while (this.va <= this.vb) {
       this.processCounter++;
-      this.resultA = this.getResult(this.va);
-      this.resultB = this.getResult(this.vb);
+      this.resultA = this.getResult({indexValue: this.va, obj: this.data});
+      this.resultB = this.getResult({indexValue: this.vb, obj: this.data});
+
 
       if (this.resultA && this.resultB) {
         result = result.concat(this.buildResult(this.resultA, this.resultB));
       }
+
       this.resultA = this.resultB = undefined;
-
-      [this.va, this.vb] = this.nextStep(this.va, this.vb);
+      [this.va, this.vb] = this.#nextStep(this.va, this.vb);
     }
 
-    if (this.DEBUG) {
-      console.log(result.length ? result : 'No results found');
-    }
+    console.log(result.length ? result : 'No results found');
 
     this.resultA = undefined;
     this.resultB = undefined;
+
     return this.getAsObject ?
-    {values: result, iterations: this.processCounter} :
-    result;
+      {values: result, iterations: this.processCounter} :
+      result;
   }
 }
 

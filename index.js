@@ -1,11 +1,10 @@
 import {exit} from 'process';
-import axios from 'axios';
 import * as fs from 'fs';
 
 import FindHeightSum from './utils/find-height-sum.js';
+import fetchUrl from './utils/fetchUrl.js';
 
-
-const mockup = JSON.parse(fs.readFileSync('./mockup.json')).values;
+const {values: mockup} = JSON.parse(fs.readFileSync('./utils/mockup.json'));
 const url = 'https://mach-eight.uc.r.appspot.com/';
 const useMockup = false;
 
@@ -16,12 +15,12 @@ if (Number.isNaN(process.argv[2])) {
 }
 
 if (useMockup) {
-  const findHeightSum = new FindHeightSum(mockup);
+  const findHeightSum = new FindHeightSum(mockup, true);
   findHeightSum.findSumHeight(vin);
 } else {
-  axios.get(url)
-      .then((response) => {
-        const findHeightSum = new FindHeightSum(response.data.values);
+  fetchUrl(url)
+      .then(({values}) => {
+        const findHeightSum = new FindHeightSum(values);
         findHeightSum.findSumHeight(vin);
       })
       .catch((error) => {
